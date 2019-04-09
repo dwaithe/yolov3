@@ -361,7 +361,7 @@ void flip_image(image a)
         }
     }
 }
-<<<<<<< HEAD
+
 void flipv_image(image a)
 {
     int i,j,k;
@@ -377,8 +377,7 @@ void flipv_image(image a)
         }
     }
 }
-=======
->>>>>>> upstream/master
+
 
 image image_distance(image a, image b)
 {
@@ -814,15 +813,9 @@ void composite_3d(char *f1, char *f2, char *out, int delta)
     for(i = 0; i < c.w*c.h; ++i){
         c.data[i] = a.data[i];
     }
-<<<<<<< HEAD
-#ifdef OPENCV
-    save_image_jpg(c, out);
-#else
+
     save_image(c, out);
-#endif
-=======
-    save_image(c, out);
->>>>>>> upstream/master
+
 }
 
 void letterbox_image_into(image im, int w, int h, image boxed)
@@ -1317,10 +1310,7 @@ void test_resize(char *filename)
         show_image(c, "rand", 1);
         printf("%f %f %f\n", dhue, dsat, dexp);
         free_image(c);
-<<<<<<< HEAD
-        cvWaitKey(0);
-=======
->>>>>>> upstream/master
+
     }
 #endif
 }

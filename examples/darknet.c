@@ -9,10 +9,7 @@ extern void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *
 extern void run_yolo(int argc, char **argv);
 extern void run_detector(int argc, char **argv);
 extern void run_coco(int argc, char **argv);
-<<<<<<< HEAD
-extern void run_captcha(int argc, char **argv);
-=======
->>>>>>> upstream/master
+
 extern void run_nightmare(int argc, char **argv);
 extern void run_classifier(int argc, char **argv);
 extern void run_regressor(int argc, char **argv);
