@@ -5,8 +5,6 @@
 #include <string.h>
 #include <pthread.h>
 
-#define SECRET_NUM -1234
-extern int gpu_index;
 
 #ifdef GPU
     #define BLOCK 512
@@ -20,17 +18,14 @@ extern int gpu_index;
     #endif
 #endif
 
-#ifndef __cplusplus
-    #ifdef OPENCV
-    #include "opencv2/highgui/highgui_c.h"
-    #include "opencv2/imgproc/imgproc_c.h"
-    #include "opencv2/core/version.hpp"
-    #if CV_MAJOR_VERSION == 3
-    #include "opencv2/videoio/videoio_c.h"
-    #include "opencv2/imgcodecs/imgcodecs_c.h"
-    #endif
-    #endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
+
+#define SECRET_NUM -1234
+extern int gpu_index;
+
 
 typedef struct{
     int classes;
@@ -58,6 +53,11 @@ typedef enum{
 } ACTIVATION;
 
 typedef enum{
+
+    PNG, BMP, TGA, JPG
+} IMTYPE;
+
+
     MULT, ADD, SUB, DIV
 } BINARY_ACTIVATION;
 
@@ -568,7 +568,10 @@ typedef struct load_args{
     int scale;
     int center;
     int coords;
+<<<<<<< HEAD
     int flip_vertical;
+=======
+>>>>>>> upstream/master
     float jitter;
     float angle;
     float aspect;
@@ -651,7 +654,12 @@ void harmless_update_network_gpu(network *net);
 #endif
 image get_label(image **characters, char *string, int size);
 void draw_label(image a, int r, int c, image label, const float *rgb);
+<<<<<<< HEAD
 void save_image_png(image im, const char *name);
+=======
+void save_image(image im, const char *name);
+void save_image_options(image im, const char *name, IMTYPE f, int quality);
+>>>>>>> upstream/master
 void get_next_batch(data d, int n, int offset, float *X, float *y);
 void grayscale_image_3c(image im);
 void normalize_image(image p);
@@ -710,7 +718,10 @@ image mask_to_rgb(image mask);
 int resize_network(network *net, int w, int h);
 void free_matrix(matrix m);
 void test_resize(char *filename);
+<<<<<<< HEAD
 void save_image(image p, const char *name);
+=======
+>>>>>>> upstream/master
 int show_image(image p, const char *name, int ms);
 image copy_image(image p);
 void draw_box_width(image a, int x1, int y1, int x2, int y2, int w, float r, float g, float b);
@@ -759,11 +770,20 @@ void do_nms_sort(detection *dets, int total, int classes, float thresh);
 
 matrix make_matrix(int rows, int cols);
 
+<<<<<<< HEAD
 #ifndef __cplusplus
 #ifdef OPENCV
 image get_image_from_stream(CvCapture *cap);
 #endif
 #endif
+=======
+#ifdef OPENCV
+void *open_video_stream(const char *f, int c, int w, int h, int fps);
+image get_image_from_stream(void *p);
+void make_window(char *name, int w, int h, int fullscreen);
+#endif
+
+>>>>>>> upstream/master
 void free_image(image m);
 float train_network(network *net, data d);
 pthread_t load_data_in_thread(load_args args);
@@ -802,5 +822,10 @@ int *read_intlist(char *s, int *n, int d);
 size_t rand_size_t();
 float rand_normal();
 float rand_uniform(float min, float max);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -135,7 +135,9 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
             sprintf(buff, "%s/%s.backup", backup_directory, base);
             save_weights(net, buff);
         }
+
         if((i < 20001 && i%1000 == 0) || (i < 1000 && i%100 == 0)){
+
 #ifdef GPU
             if(ngpus != 1) sync_nets(nets, ngpus, 0);
 #endif
@@ -202,7 +204,9 @@ void print_detector_detections(FILE **fps, char *id, detection *dets, int total,
         if (xmax > w) xmax = w;
         if (ymax > h) ymax = h;
 
-        for(j = 0; j < 1; ++j){
+
+        for(j = 0; j < classes; ++j){
+
             if (dets[i].prob[j]) fprintf(fps[j], "%s %f %f %f %f %f\n", id, dets[i].prob[j],
                     xmin, ymin, xmax, ymax);
         }
@@ -223,7 +227,9 @@ void print_imagenet_detections(FILE *fp, int id, detection *dets, int total, int
         if (xmax > w) xmax = w;
         if (ymax > h) ymax = h;
 
-        for(j = 0; j < 1; ++j){
+
+        for(j = 0; j < classes; ++j){
+
             int class = j;
             if (dets[i].prob[class]) fprintf(fp, "%d %d %f %f %f %f %f\n", id, j+1, dets[i].prob[class],
                     xmin, ymin, xmax, ymax);
@@ -276,8 +282,9 @@ void validate_detector_flip(char *datacfg, char *cfgfile, char *weightfile, char
         if(!outfile) outfile = "comp4_det_test_";
         fps = calloc(classes, sizeof(FILE *));
         for(j = 0; j < classes; ++j){
-            //snprintf(buff, 1024, "%s/%s%s.txt", prefix, outfile, names[j]);
-            fprintf(buff, 1024, "%s/%s.txt", prefix, outfile);
+
+            snprintf(buff, 1024, "%s/%s%s.txt", prefix, outfile, names[j]);
+
             fps[j] = fopen(buff, "w");
         }
     }
@@ -383,7 +390,9 @@ void validate_detector(char *datacfg, char *cfgfile, char *weightfile, char *out
     char **paths = (char **)list_to_array(plist);
 
     layer l = net->layers[net->n-1];
-    int classes = 1;//l.classes;
+
+    int classes = l.classes;
+
 
     char buff[1024];
     char *type = option_find_str(options, "eval", "voc");
@@ -406,9 +415,10 @@ void validate_detector(char *datacfg, char *cfgfile, char *weightfile, char *out
     } else {
         if(!outfile) outfile = "comp4_det_test_";
         fps = calloc(classes, sizeof(FILE *));
-        for(j = 0; j <1; ++j){
-            snprintf(buff, 1024, "%s/%s.txt", prefix, outfile);
-            printf("classes%s\n", names[j]);
+
+        for(j = 0; j < classes; ++j){
+            snprintf(buff, 1024, "%s/%s%s.txt", prefix, outfile, names[j]);
+
             fps[j] = fopen(buff, "w");
         }
     }
@@ -611,10 +621,9 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         else{
             save_image(im, "predictions");
 #ifdef OPENCV
-            cvNamedWindow("predictions", CV_WINDOW_NORMAL); 
-            if(fullscreen){
-                cvSetWindowProperty("predictions", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-            }
+
+            make_window("predictions", 512, 512, 0);
+
             show_image(im, "predictions", 0);
 #endif
         }
