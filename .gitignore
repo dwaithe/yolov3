@@ -5,12 +5,10 @@
 *.png
 *.jpg
 *.pyc
-<<<<<<< HEAD
+
 *.weights
 results/
 *.conv.74
-=======
->>>>>>> upstream/master
 old/
 mnist/
 data/
